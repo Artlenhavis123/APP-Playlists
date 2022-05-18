@@ -1,0 +1,252 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous">
+  	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.8.1/font/bootstrap-icons.css">
+
+		<!-- Google Icons -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+
+		<!-- CSS -->
+    <link rel="stylesheet" href="./static/home/style.css">
+    
+		<!-- Page Title -->
+    <title>APP Assignment Playlists</title>
+</head>
+
+<body>
+    <!------------- Nav bar -------------->
+    <nav class="navbar navbar-expand-sm navbar-light">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <span style="font-weight: bold">APP Assessment</span>
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#toggleMobileMenu"
+                aria-controls="toggleMobileMenu" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="toggleMobileMenu">
+                <ul class="navbar-nav ms-auto text-center">
+                    <li>
+                        <a class="nav-link" href="/">Home</a>
+                    </li>
+                    <li>
+                        <a class="nav-link" data-bs-toggle="modal" data-bs-target="#createPlaylistModal">Create Playlist</a>
+                    </li>
+                </ul>
+            </div>
+
+						<!------------- New Playlist Popup -------------->
+						<div class="modal fade" id="createPlaylistModal">
+			        <div class="modal-dialog modal-dialog-centered">
+			          <div class="modal-content">
+			      
+			            <!-- Modal Header -->
+			            <div class="modal-header">
+			              <h4 class="modal-title">Creating a Playlist:</h4>
+			              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+			            </div>
+			      
+			            <!-- Modal body -->
+			            <form id='createPlaylist' class='form' action="/api/createPlaylist" method="POST">
+			              <div class="modal-body">
+			                  <div class="form-floating mb-3">
+			                    <input type="text" class="form-control" name='playlistName' id="floatingTitle" placeholder="Song Tital">
+			                    <label for="floatingTitle">Playlist Name</label>
+			                  </div>
+			              </div>
+			      
+			            <!-- Modal footer -->
+			              <div class="modal-footer">
+			                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+			                <button type="submit" class="btn btn-primary">Create Playlist</button>
+			              </div>
+			            </form>
+			      
+			          </div>
+			        </div>
+			      </div>
+        </div>
+    </nav>
+
+		<!------------- Home Page -------------->
+    <div id='homePage' class="container">
+        <div class="d-grid mt-3 gap-2">
+            <div class="p-2">
+              <h1>Welcome User</h1>
+              <p>No. Of Playlists: <span id='numOfPlay'></span></p>
+            </div>
+            <div class="p-2">
+								<!------------- Playlist Table -------------->
+                <table id="playlist_table" class="table table-hover table-striped">
+                    <thead>
+                        <tr col-span="">
+                            <th style="width: 33%" onclick="sortTable(0)">Playlists</th>
+                            <th style="width: 33%" onclick="sortTable(1)">No. Of Songs</th>
+                            <th style="width: 33%" colspan='2' onclick="sortTable(2)">Date Created</th>
+                        </tr>
+                    </thead>
+                    <tbody id="playlist_list">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+				<!------------- Delete Playlist Popup -------------->
+				<div class="modal fade" id="delPlayModal">
+        	<div class="modal-dialog modal-dialog-centered">
+	          <div class="modal-content">
+	      
+	            <!-- Modal Header -->
+	            <div class="modal-header">
+	              <h4 class="modal-title">Are You Sure You Want To Delete: <span id="delPlaylistName"></span></h4>
+	              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+	            </div>
+	      
+	            <!-- Modal body -->
+	            <form id='delplaylist' class='form' action="/api/delPlay" method="POST">
+	              <div class="modal-body">
+	                <p class='text-danger'>This Can't Be Undone!</p>
+									<input type='hidden' name='delpid' id="delPlaylistID">
+	              </div>
+	      
+	            <!-- Modal footer -->
+	              <div class="modal-footer">
+	                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+	                <button type="submit" class="btn btn-danger">Delete</button>
+	              </div>
+	            </form>
+	          </div>
+        	</div>
+      	</div>
+    </div>
+
+		<!------------- View Playlist Page -------------->
+		<div id='viewPlaylistPage' style="display: none;" class="container">
+        <div class="d-grid mt-3 gap-2">
+          
+            <div class="p-2">
+              <h3>Name: <b><span id='view_playlist_name'></b></span></h3>
+              
+            </div>
+
+						<!------------- Selected Playlist Infomation -------------->
+            <div class="p-2">
+                <table id="playlist_table" class="table table-hover table-striped">
+                    <thead>
+                        <tr col-span="">
+                            <th style="width: 33%" onclick="sortTable(0)">Playlist</th>
+                            <th style="width: 33%" onclick="sortTable(1)">No. Of Songs</th>
+                            <th style="width: 33%" colspan='2' onclick="sortTable(2)">Date Created</th>
+                        </tr>
+                    </thead>
+                    <tbody id="view_playlist_info">
+                    </tbody>
+                </table>
+            </div>
+
+						<!------------- Selected Playlist Songs -------------->
+            <div class="p-2">
+              <table id="playlist_table" class="table mt-2 table-hover table-striped">
+                    <thead>
+                        <tr col-span="">
+                            <th colspan='3' onclick="sortTable(0)">Songs</th>
+                            <th class='text-center'><a  data-bs-toggle="modal" data-bs-target="#addSongModal">Add Song<i class="bi bi-plus"></i></a></th>
+                        </tr>
+                    </thead>
+                    <tbody id="view_playlist_songs">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+      
+      <!------------- New Song Playlist -------------->
+      <div class="modal fade" id="addSongModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Adding A Song:</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+      
+            <!-- Modal body -->
+            <form id='addSong' class='form' action="/api/addSong" method="POST">
+              <div class="modal-body">
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name='name' id="floatingTitle" placeholder="Song Tital">
+                    <label for="floatingTitle">Song Title</label>
+                  </div>
+                  <div class="form-floating mb-3">
+                    <input type="text" class="form-control" name='artist' id="floatingArtist" placeholder="Artist">
+                    <label for="floatingArtist">Artist</label>
+                  </div>
+                  <div class="form-floating">
+                    <input type="text" class="form-control" name='link' id="floatingLink" placeholder="Link">
+                    <label for="floatingLink">Link To Song</label>
+                    <input type="hidden" id="addSong_PlaylistID" name="playlistID" value="">
+                  </div>
+              </div>
+      
+            <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Add Song</button>
+              </div>
+            </form>
+      
+          </div>
+        </div>
+      </div>
+			
+			
+			<!------------- Delete Song Popup -------------->
+			<div class="modal fade" id="delSongModal">
+        <div class="modal-dialog modal-dialog-centered">
+          <div class="modal-content">
+      
+            <!-- Modal Header -->
+            <div class="modal-header">
+              <h4 class="modal-title">Are You Sure You Want To Delete This Song</h4>
+              <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+      
+            <!-- Modal body -->
+            <form id='delSong' class='form' action="/api/delSong" method="POST">
+              <div class="modal-body">
+                <p class='text-danger'>This Can't Be Undone!</p>
+								<input type='hidden' name='sid' id="delSID">
+								<input type='hidden' name='pid' id="delPID">
+              </div>
+      
+            <!-- Modal footer -->
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-danger">Delete</button>
+              </div>
+            </form>
+      
+          </div>
+        </div>
+      </div>
+
+			
+    </div>
+
+		<!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js" integrity="sha384-KsvD1yqQ1/1+IA7gi3P0tyJcT3vR+NdBTt13hSJ2lnve8agRGXTTyNaBYmCR/Nwi" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.min.js" integrity="sha384-nsg8ua9HAw1y0W1btsyWgBklPnCUAFLuTMS2G72MMONqmOymq585AcH49TLBQObG" crossorigin="anonymous"></script>
+
+		<!-- JS -->
+		<script src='./static/home/app.js'></script>
+</body>
+
+</html>

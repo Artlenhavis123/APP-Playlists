@@ -1,0 +1,48 @@
+{
+    "Playlists": [
+        {
+            "ID": 1,
+            "Name": "Car Boosted",
+            "Songs": [
+                {
+                    "Name": "Dusk Till Dawn",
+                    "Artist": "Sia",
+                    "Link": "https://www.youtube.com/watch?v=6ADdqsvlqtU"
+                },
+                {
+                    "Name": "Blinding Lights",
+                    "Artist": "The Weekend",
+                    "Link": "https://www.youtube.com/watch?v=4NRXx6U8ABQ"
+                }
+            ],
+            "Date": "16 / 03 / 2022"
+        },
+        {
+            "ID": 2,
+            "Name": "Workout Playlists",
+            "Songs": [
+                {
+                    "Name": "Dusk Till Dawn",
+                    "Artist": "Sia",
+                    "Link": "https://www.youtube.com/watch?v=6ADdqsvlqtU"
+                },
+                {
+                    "Name": "Blinding Lights",
+                    "Artist": "The Weekend",
+                    "Link": "https://www.youtube.com/watch?v=4NRXx6U8ABQ"
+                },
+                {
+                    "Name": "Till I Collapes",
+                    "Artist": "Eminem",
+                    "Link": "https://www.youtube.com/watch?v=Obim8BYGnOE"
+                },
+                {
+                    "Name": "Lose Yourself",
+                    "Artist": "Eminem",
+                    "Link": "https://www.youtube.com/watch?v=_Yhyp-_hX2s"
+                }
+            ],
+            "Date": "25 / 04 / 2022"
+        }
+    ]
+}

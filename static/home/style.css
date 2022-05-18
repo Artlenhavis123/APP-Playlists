@@ -1,0 +1,27 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: rgb(20, 20, 20);
+}
+
+a:not(.dropdown-menu a) {
+    color: white !important;
+}
+
+a:not(.dropdown-menu a):hover {
+    font-weight: bold !important;
+}
+
+table td, table, th{
+    color: white
+}
+
+h1, h3, p{
+    color: white
+}
+
+nav {
+    background-color: rgb(26, 26, 26);
+    box-shadow: 0px -8px 10px lightgrey;
+}
